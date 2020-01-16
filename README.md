@@ -1,10 +1,10 @@
 ## nexus-npm-repo-cleaner
 
-##### Description:
+#### Description:
 
 Nexus task for cleaning old npm packages
 
-##### Usage:
+#### Usage:
 
 ###### Before adding script to your task please define next vars:
   Objects to save for each component - ```def retentionCount = 10;```\
