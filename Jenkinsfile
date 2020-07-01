@@ -37,9 +37,9 @@ pipeline {
 
     }
 
-    // post {
-    //     always {
-    //         cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE'], [pattern: '**', type: 'INCLUDE']])
-    //     }
-    // }
+    post {
+        always {
+            cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE'], [pattern: '.*', type: 'INCLUDE']])
+        }
+    }
 }
