@@ -39,7 +39,7 @@ pipeline {
 
     post {
         always {
-            cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE'], [pattern: '.*', type: 'INCLUDE']])
+            cleanWs(patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: '.*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
         }
     }
 }
