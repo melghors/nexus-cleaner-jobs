@@ -36,4 +36,10 @@ pipeline {
         }
 
     }
+
+    post {
+        always {
+            cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
+        }
+    }
 }
