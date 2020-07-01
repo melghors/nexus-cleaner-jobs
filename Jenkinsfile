@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('build') {
             steps {
-                lastChanges()
-                lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'SIDE',matching: 'LINE'
+                lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'LINE', matching: 'LINE'
                 echo 'Hello World'
                 sh 'env'
             }
