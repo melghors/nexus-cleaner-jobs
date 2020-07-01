@@ -3,8 +3,10 @@ pipeline {
 
     stages {
         stage('build') {
-            steps {
+            when { 
                 lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'LINE', matching: 'LINE'
+            }
+            steps {
                 echo 'Hello World'
                 sh 'env'
             }
