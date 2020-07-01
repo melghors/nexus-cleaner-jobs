@@ -4,13 +4,18 @@ pipeline {
     stages {
         stage('build') {
             steps {
-
-                lastChanges since: 'LAST_SUCCESSFUL_BUILD', format:'LINE', matching: 'LINE'
                 echo 'Hello World'
                 script {
-                    env.changes = lastChanges()
+                    def changes = lastChanges(since: "LAST_SUCCESSFUL_BUILD", format: "LINE", matching: "LINE")
+                    echo "$changes"
                 }
+                sh """
+                curl ${JOB_URL}last-changes
+                export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2-`
+                """
+                sh 'echo $LAST_SUCESSFUL_BUILD'
                 sh 'env'
+
             }
         }
 
