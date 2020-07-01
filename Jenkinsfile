@@ -24,14 +24,15 @@ pipeline {
         }
         stage('deploy') {
             steps {
-                // sh """
-                // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2-`
-                // """
+                sh """
+                export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/artifact/lastSuccessfulBuild`
+                """
+                //http://localhost:8081/job/test-changes/job/master/lastSuccessfulBuild/artifact/lastSuccessfulBuild
                 //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
                 sh 'ls -lah'
-                sh 'cat lastSuccessfulBuild'
+                //sh 'cat lastSuccessfulBuild'
                 sh 'env'
-                sh 'echo 1'
+                sh 'echo 1ol'
             }
         }
 
@@ -39,7 +40,7 @@ pipeline {
 
     post {
         always {
-            cleanWs(deleteDirs: true, patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
+            deleteDir()
         }
     }
 }
