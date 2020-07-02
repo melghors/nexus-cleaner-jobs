@@ -36,7 +36,7 @@ pipeline {
                   }
                 }
                 sh """
-                  deploy ${BUILD_NUMBER}
+                  echo "deploy ${BUILD_NUMBER}"
                 """
             }
         }
