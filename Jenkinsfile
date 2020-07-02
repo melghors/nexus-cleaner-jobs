@@ -31,11 +31,13 @@ pipeline {
                 script {
                   lastSuccessfulBuild = readFile('lastSuccessfulBuild')
                   env.LAST_SUCCESSFUL_BUILD = lastSuccessfulBuild
+                  if (env.LAST_SUCCESSFUL_BUILD != BUILD_NUMBER) {
+                    env.BUILD_NUMBER = env.LAST_SUCCESSFUL_BUILD
+                  }
                 }
-                sh 'ls -lah'
-                sh 'cat lastSuccessfulBuild'
-                sh 'env'
-                sh 'echo 1'
+                sh """
+                  deploy ${BUILD_NUMBER}
+                """
             }
         }
 
