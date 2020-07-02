@@ -28,6 +28,10 @@ pipeline {
                 // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2-`
                 // """
                 //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
+                script {
+                  lastSuccessfulBuild = readFile('/path/to/file')
+                  env.LAST_SUCCESSFUL_BUILD = lastSuccessfulBuild
+                }
                 sh 'ls -lah'
                 sh 'cat lastSuccessfulBuild'
                 sh 'env'
