@@ -17,7 +17,7 @@ pipeline {
                 echo $BUILD_NUMBER > lastSuccessfulBuild
                 cat lastSuccessfulBuild
                 """                
-                archiveArtifacts artifacts: 'lastSuccessfulBuild'
+                archiveArtifacts ('lastSuccessfulBuild')
                 //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'artifacts', reportFiles: 'lastSuccessfulBuild', reportName: 'lastSuccessfulBuild', reportTitles: ''])
 
             }
@@ -25,12 +25,13 @@ pipeline {
         stage('deploy') {
             steps {
                 // sh """
-                // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/artifact/lastSuccessfulBuild`
+                // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2-`
                 // """
-                //http://localhost:8081/job/test-changes/job/master/lastSuccessfulBuild/artifact/lastSuccessfulBuild
+                //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
                 sh 'ls -lah'
+                sh 'cat lastSuccessfulBuild'
                 sh 'env'
-                sh 'echo 1ol'
+                sh 'echo 1'
             }
         }
 
@@ -38,7 +39,7 @@ pipeline {
 
     post {
         always {
-            cleanWs(patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
+            cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE'], [pattern: '.*', type: 'INCLUDE']])
         }
     }
 }
