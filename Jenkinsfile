@@ -17,7 +17,7 @@ pipeline {
                 echo $BUILD_NUMBER > lastSuccessfulBuild
                 cat lastSuccessfulBuild
                 """                
-                archiveArtifacts (artifacts: 'lastSuccessfulBuild')
+                archiveArtifacts ('lastSuccessfulBuild')
                 //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'artifacts', reportFiles: 'lastSuccessfulBuild', reportName: 'lastSuccessfulBuild', reportTitles: ''])
 
             }
@@ -38,9 +38,9 @@ pipeline {
 
     }
 
-    // post {
-    //     always {
-    //         cleanWs(deleteDirs: true, patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
-    //     }
-    // }
+    post {
+        always {
+            cleanWs(patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
+        }
+    }
 }
