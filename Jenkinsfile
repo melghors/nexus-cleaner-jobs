@@ -38,9 +38,9 @@ pipeline {
 
     }
 
-    post {
-        always {
-            deleteDir()
-        }
-    }
+    // post {
+    //     always {
+    //         cleanWs(deleteDirs: true, patterns: [[pattern: '*', type: 'INCLUDE'], [pattern: 'lastSuccessfulBuild', type: 'EXCLUDE']])
+    //     }
+    // }
 }
