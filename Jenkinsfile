@@ -28,9 +28,7 @@ pipeline {
                 // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/artifact/lastSuccessfulBuild`
                 // """
                 //http://localhost:8081/job/test-changes/job/master/lastSuccessfulBuild/artifact/lastSuccessfulBuild
-                //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
                 sh 'ls -lah'
-                //sh 'cat lastSuccessfulBuild'
                 sh 'env'
                 sh 'echo 1ol'
             }
