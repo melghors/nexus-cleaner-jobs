@@ -29,7 +29,7 @@ pipeline {
                 // """
                 //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
                 script {
-                  lastSuccessfulBuild = readFile('/path/to/file')
+                  lastSuccessfulBuild = readFile('lastSuccessfulBuild')
                   env.LAST_SUCCESSFUL_BUILD = lastSuccessfulBuild
                 }
                 sh 'ls -lah'
