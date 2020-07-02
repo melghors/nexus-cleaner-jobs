@@ -17,16 +17,16 @@ pipeline {
                 echo $BUILD_NUMBER > lastSuccessfulBuild
                 cat lastSuccessfulBuild
                 """                
-                archiveArtifacts ('lastSuccessfulBuild')
+                archiveArtifacts (artifacts: 'lastSuccessfulBuild')
                 //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'artifacts', reportFiles: 'lastSuccessfulBuild', reportName: 'lastSuccessfulBuild', reportTitles: ''])
 
             }
         }
         stage('deploy') {
             steps {
-                sh """
-                export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/artifact/lastSuccessfulBuild`
-                """
+                // sh """
+                // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/artifact/lastSuccessfulBuild`
+                // """
                 //http://localhost:8081/job/test-changes/job/master/lastSuccessfulBuild/artifact/lastSuccessfulBuild
                 //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
                 sh 'ls -lah'
