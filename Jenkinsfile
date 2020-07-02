@@ -17,7 +17,7 @@ pipeline {
                 echo $BUILD_NUMBER > lastSuccessfulBuild
                 cat lastSuccessfulBuild
                 """                
-                archiveArtifacts atifacts: 'lastSuccessfulBuild'
+                archiveArtifacts artifacts: 'lastSuccessfulBuild'
                 //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'artifacts', reportFiles: 'lastSuccessfulBuild', reportName: 'lastSuccessfulBuild', reportTitles: ''])
 
             }
