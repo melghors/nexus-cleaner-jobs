@@ -3,49 +3,41 @@ pipeline {
     agent any
 
     stages {
-        stage('build') {
+        stage('app build') {
             when {
                 changelog '.*'
             }
             steps {
                 echo 'Hello World'
-                // script {
-                //     def changes = lastChanges(since: "LAST_SUCCESSFUL_BUILD", format: "LINE", matching: "LINE")
-                // }
-                // сurl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2- > lastSuccessfulBuild
-                sh """
-                echo $BUILD_NUMBER > lastSuccessfulBuild
-                cat lastSuccessfulBuild
-                """                
-                //archiveArtifacts ('lastSuccessfulBuild')
-                //publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'artifacts', reportFiles: 'lastSuccessfulBuild', reportName: 'lastSuccessfulBuild', reportTitles: ''])
-
-            }
-        }
-        stage('deploy') {
-            steps {
-                // sh """
-                // export LAST_SUCESSFUL_BUILD=`curl --user admin:admin ${JOB_URL}lastSuccessfulBuild/api/json  | jq -r '.displayName' | cut -c2-`
-                // """
-                //sh 'echo $LAST_SUCESSFUL_BUILD > lastSuccessfulBuild'
-                script {
-                  lastSuccessfulBuild = readFile('lastSuccessfulBuild')
-                  env.LAST_SUCCESSFUL_BUILD = lastSuccessfulBuild
-                  if (env.LAST_SUCCESSFUL_BUILD != BUILD_NUMBER) {
-                    env.BUILD_NUMBER = env.LAST_SUCCESSFUL_BUILD
-                  }
-                }
                 sh """
                   echo "deploy ${BUILD_NUMBER}"
                 """
             }
         }
-
-    }
-
-    post {
-        always {
-            cleanWs(patterns: [[pattern: 'lastSuccessfulBuild', type: 'EXCLUDE'], [pattern: '*', type: 'INCLUDE']])
+        stage('docker build') {
+            when {
+                changelog '.*'
+            }
+            steps {
+                echo 'Hello World'
+                sh """
+                  echo "deploy ${BUILD_NUMBER}"
+                """
+            }
         }
+        stage('deploy') {
+            steps {
+                script {
+                    //env.TAG = sh(returnStdout: true, script: "curl --user zuser:vVk858dC https://nexus.zdevcode.com/repository/docker-internal/v2/processing/dev/tags/list -sb -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' | jq '.tags[-1]' --raw-output")
+                    env.MANIFEST_NAME = "processing/dev"
+                    env.TAG = sh(returnStdout: true, script: "python3 1.py")
+                }
+                sh """
+                  env
+                  echo "deploy ${TAG}"
+                """
+            }
+        }
+
     }
 }
